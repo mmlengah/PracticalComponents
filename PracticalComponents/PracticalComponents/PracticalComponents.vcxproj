@@ -141,7 +141,9 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PCM.h" />
     <ClInclude Include="PCR.h" />
+    <ClInclude Include="PCTP.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />

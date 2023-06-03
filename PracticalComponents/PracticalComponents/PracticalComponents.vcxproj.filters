@@ -24,6 +24,12 @@
     <ClInclude Include="PCR.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PCTP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PCM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

@@ -1,7 +1,1 @@
-﻿  pch.cpp
-  dllmain.cpp
-  Generating code
-  Previous IPDB not found, fall back to full compilation.
-  All 1 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  Finished generating code
-  PracticalComponents.vcxproj -> D:\GitHub\PracticalComponents\PracticalComponents\x64\Release\PracticalComponents.dll
+﻿  PracticalComponents.vcxproj -> D:\GitHub\PracticalComponents\PracticalComponents\x64\Release\PracticalComponents.dll
