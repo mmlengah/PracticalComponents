@@ -83,20 +83,20 @@ bool renameFile(const std::string& filePath, const std::string& newFileName) {
 
 
 int main() {
-    createFolder("../Build");
-    createFolder("../Build/Practical-Components");
-    createFolder("../Build/Practical-Components/include");
-    createFolder("../Build/Practical-Components/include/PC");
-    createFolder("../Build/Practical-Components/bin");
-    createFolder("../Build/Practical-Components/bin/x64");
-    createFolder("../Build/Practical-Components/bin/x64/Debug");
-    createFolder("../Build/Practical-Components/bin/x64/Release");
+    createFolder("../../Build");
+    createFolder("../../Build/Practical-Components");
+    createFolder("../../Build/Practical-Components/include");
+    createFolder("../../Build/Practical-Components/include/PC");
+    createFolder("../../Build/Practical-Components/bin");
+    createFolder("../../Build/Practical-Components/bin/x64");
+    createFolder("../../Build/Practical-Components/bin/x64/Debug");
+    createFolder("../../Build/Practical-Components/bin/x64/Release");
 
-    copyHeaderFiles("../PracticalComponents", "../Build/Practical-Components/include/PC");
-    copyDllFiles("../x64/Debug", "../Build/Practical-Components/bin/x64/Debug");
-    renameFile("../Build/Practical-Components/bin/x64/Debug/PracticalComponents.dll", "PracticalComponentsd.dll");
+    copyHeaderFiles("../PracticalComponents", "../../Build/Practical-Components/include/PC");
+    copyDllFiles("../x64/Debug", "../../Build/Practical-Components/bin/x64/Debug");
+    renameFile("../../Build/Practical-Components/bin/x64/Debug/PracticalComponents.dll", "PracticalComponentsd.dll");
 
-    copyDllFiles("../x64/Release", "../Build/Practical-Components/bin/x64/Release");
+    copyDllFiles("../x64/Release", "../../Build/Practical-Components/bin/x64/Release");
 }
 
 
