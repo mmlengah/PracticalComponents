@@ -3,9 +3,12 @@
 #include <cmath>
 #include <stdexcept>
 #include <ostream>
-#include <cmath>
 #include <cassert>
 #include <emmintrin.h>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 namespace PC {
 	template <typename T>
@@ -151,6 +154,10 @@ namespace PC {
 
 	};
 
+	// alias for Vector2<int> as Vector2int
+	using Vector2int = Vector2<int>;
+	using Vector2f = Vector2<float>;
+
 	template <typename T>
 	struct Vector3 {
 		T x, y, z;
@@ -205,7 +212,7 @@ namespace PC {
 
 		Vector3 operator*(const T& v) const {
 			return Vector3(x * v, y * v, z * v);
-		}		
+		}
 
 		Vector3& operator*=(const T& v) {
 			x *= v;
@@ -299,6 +306,8 @@ namespace PC {
 		}
 	};
 
+	using Vector3int = Vector3<int>;
+	using Vector3f = Vector3<float>;
 
 	template <typename T>
 	struct Vector4 {
@@ -409,6 +418,9 @@ namespace PC {
 		}
 	};
 
+	using Vector4int = Vector4<int>;
+	using Vector4f = Vector4<float>;
+
 	template <typename T>
 	struct Matrix3x3 {
 	private:
@@ -448,34 +460,27 @@ namespace PC {
 			}
 		}
 
-		void SetValue(int row, int column, T value) { matrix[row][column] = value; }
+		void SetValue(int row, int column, T value) { 
+			matrix[row][column] = value;
+		}
 
-		T GetValue(int row, int column) const { return matrix[row][column]; }
+		T GetValue(int row, int column) const { 
+			return matrix[row][column]; 
+		}
 
-		// I removed the SIMD implementation for brevity and compatibility.
-		// Please add it back if you need it.
-		Matrix3x3 operator*(const Matrix3x3& m) const {
-			Matrix3x3 temp;
-			__m128 aLine, bLine, rLine;
+		Matrix3x3 operator*(const Matrix3x3& other) const {
+			Matrix3x3 result;
 
-			for (int i = 0; i < 3; i++) {
-				// Load the whole row:
-				aLine = _mm_loadu_ps(&matrix[i][0]);
-				for (int j = 0; j < 3; j++) {
-					// Broadcast the element across the SIMD vector:
-					bLine = _mm_set1_ps(m.matrix[j][0]);
-					// Multiply the row by the column element:
-					rLine = _mm_mul_ps(aLine, bLine);
-
-					// Sum the result: this is the dot product:
-					rLine = _mm_hadd_ps(rLine, rLine);
-					rLine = _mm_hadd_ps(rLine, rLine);
-
-					// Store the result back into the matrix:
-					_mm_store_ss(&temp.matrix[i][j], rLine);
+			for (int i = 0; i < 3; ++i) {
+				for (int j = 0; j < 3; ++j) {
+					result.matrix[i][j] = 0;
+					for (int k = 0; k < 3; ++k) {
+						result.matrix[i][j] += matrix[i][k] * other.matrix[k][j];
+					}
 				}
 			}
-			return temp;
+
+			return result;
 		}
 
 		Matrix3x3 operator=(const Matrix3x3& m) {
@@ -519,8 +524,8 @@ namespace PC {
 		// Create a 3x3 transformation matrix for rotation
 		static Matrix3x3 Matrix3x3FromRotation(const T& rotationAngle) {
 			Matrix3x3 temp;
-			float cosTheta = cos(rotationAngle * 3.14159f / 180.0f);
-			float sinTheta = sin(rotationAngle * 3.14159f / 180.0f);
+			float cosTheta = cos(rotationAngle * M_PI / 180.0f);
+			float sinTheta = sin(rotationAngle * M_PI / 180.0f);
 
 			temp.SetValue(0, 0, cosTheta);
 			temp.SetValue(0, 1, -sinTheta);
@@ -545,6 +550,9 @@ namespace PC {
 		}
 
 	};
+
+	using Matrix3x3int = Matrix3x3<int>;
+	using Matrix3x3f = Matrix3x3<float>;
 
 	template <typename T>
 	struct Matrix4x4 {
@@ -600,12 +608,13 @@ namespace PC {
 					__m128 col = _mm_set_ps(m.matrix[0][j], m.matrix[1][j], m.matrix[2][j], m.matrix[3][j]);
 					__m128 res = _mm_mul_ps(row, col);
 
-					// Sum the four float values of res into a single float
-					res = _mm_hadd_ps(res, res);
-					res = _mm_hadd_ps(res, res);
+					// Manually sum the four float values of res into a single float
+					float result[4];
+					_mm_store_ps(result, res);
+					float sum = result[0] + result[1] + result[2] + result[3];
 
 					// Store the result back into temp
-					_mm_store_ss(&(temp.matrix[i][j]), res);
+					temp.matrix[i][j] = sum;
 				}
 			}
 			return temp;
@@ -687,12 +696,12 @@ namespace PC {
 
 		static Matrix4x4 Matrix4x4FromRotation(const Vector3<T>& rotationAngles) {
 			Matrix4x4 temp;
-			float cosX = cos(rotationAngles.x * 3.14159f / 180.0f);
-			float sinX = sin(rotationAngles.x * 3.14159f / 180.0f);
-			float cosY = cos(rotationAngles.y * 3.14159f / 180.0f);
-			float sinY = sin(rotationAngles.y * 3.14159f / 180.0f);
-			float cosZ = cos(rotationAngles.z * 3.14159f / 180.0f);
-			float sinZ = sin(rotationAngles.z * 3.14159f / 180.0f);
+			float cosX = cos(rotationAngles.x * M_PI / 180.0f);
+			float sinX = sin(rotationAngles.x * M_PI / 180.0f);
+			float cosY = cos(rotationAngles.y * M_PI / 180.0f);
+			float sinY = sin(rotationAngles.y * M_PI / 180.0f);
+			float cosZ = cos(rotationAngles.z * M_PI / 180.0f);
+			float sinZ = sin(rotationAngles.z * M_PI / 180.0f);
 
 			temp.SetValue(0, 0, cosY * cosZ);
 			temp.SetValue(0, 1, cosY * sinZ);
@@ -791,4 +800,7 @@ namespace PC {
 		}
 
 	};
+
+	using Matrix4x4int = Matrix4x4<int>;
+	using Matrix4x4f = Matrix4x4<float>;
 }
