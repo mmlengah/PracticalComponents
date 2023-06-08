@@ -114,11 +114,11 @@ namespace PC {
 		}
 
 		T dotProduct(const Vector2& v) const {
-			return x * v.x + y * v.y;
+			return static_cast<T>(x * v.x + y * v.y);
 		}
 
 		T magnitude() const {
-			return std::sqrt(x * x + y * y);
+			return static_cast<T>(std::sqrt(x * x + y * y));
 		}
 
 		Vector2 normalize() const {
@@ -137,13 +137,13 @@ namespace PC {
 			// Clamp cosAngle to the interval [-1, 1]
 			cosAngle = std::max(T(-1), std::min(T(1), cosAngle));
 			T rad = std::acos(cosAngle);
-			return rad * 180.0 / M_PI; // convert to degrees
+			return static_cast<T>((rad * 180.0 / M_PI)); // convert to degrees
 		}
 
 		Vector2 rotate(T angle) const {
-			T radian = angle * M_PI / 180.0; // convert angle to radians
-			T cosAngle = std::cos(radian);
-			T sinAngle = std::sin(radian);
+			T radian = static_cast<T>(angle * M_PI / 180.0); // convert angle to radians
+			T cosAngle = static_cast<T>(std::cos(radian));
+			T sinAngle = static_cast<T>(std::sin(radian));
 			return Vector2(x * cosAngle - y * sinAngle, x * sinAngle + y * cosAngle);
 		}
 
