@@ -168,7 +168,7 @@ TEST(Vector2, MagnitudeTest) {
 }
 
 // Test normalize method
-TEST(Vector2Fl, NormalizeTest) {
+TEST(Vector2, NormalizeTest) {
     Vector2<float> vec(3.0f, 4.0f);
     Vector2<float> norm = vec.normalize();
     EXPECT_NEAR(norm.x, 0.6f, 0.0001f);
@@ -176,7 +176,7 @@ TEST(Vector2Fl, NormalizeTest) {
 }
 
 // Test angle method
-TEST(Vector2Fl, AngleTest) {
+TEST(Vector2, AngleTest) {
     Vector2<float> vec1(1.0f, 0.0f);
     Vector2<float> vec2(0.0f, 1.0f);
     float angle = vec1.angle(vec2);
@@ -184,7 +184,7 @@ TEST(Vector2Fl, AngleTest) {
 }
 
 // Test rotate method
-TEST(Vector2Fl, RotateTest) {
+TEST(Vector2, RotateTest) {
     Vector2<float> vec(1.0f, 0.0f);
     Vector2<float> rotated = vec.rotate(90.0f);
     EXPECT_NEAR(rotated.x, 0.0f, 0.0001f);

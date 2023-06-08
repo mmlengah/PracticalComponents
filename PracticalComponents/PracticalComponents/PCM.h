@@ -259,7 +259,7 @@ namespace PC {
 		}
 
 		T dotProduct(const Vector3& v) const {
-			return x * v.x + y * v.y + z * v.z;
+			return static_cast<T>(x * v.x + y * v.y + z * v.z);
 		}
 
 		Vector3 crossProduct(const Vector3& v) const {
@@ -267,7 +267,7 @@ namespace PC {
 		}
 
 		T magnitude() const {
-			return std::sqrt(x * x + y * y + z * z);
+			return static_cast<T>(std::sqrt(x * x + y * y + z * z));
 		}
 
 		Vector3<T> normalise() const {
@@ -282,17 +282,17 @@ namespace PC {
 			// Ensure magnitudes is not zero
 			assert(magnitudes != 0);
 			// Make sure the value is between -1 and 1 before taking acos to avoid NaN
-			T cosAngle = std::max(std::min(dot / magnitudes, (T)1.0), (T)-1.0);
-			T angleRad = std::acos(cosAngle);
+			T cosAngle = static_cast<T>(std::max(std::min(dot / magnitudes, (T)1.0), (T)-1.0));
+			T angleRad = static_cast<T>(std::acos(cosAngle));
 			// Convert the angle in radians to degrees
-			T angleDeg = angleRad * 180.0 / M_PI;
+			T angleDeg = static_cast<T>(angleRad * 180.0 / M_PI);
 			return angleDeg;
 		}
 
 		Vector3 rotate(const Vector3& axis, T angle) const {
-			T rad = angle * M_PI / 180;  // Convert angle to radians
-			T cosAngle = std::cos(rad);
-			T sinAngle = std::sin(rad);
+			T rad = static_cast<T>(angle * M_PI / 180);  // Convert angle to radians
+			T cosAngle = static_cast<T>(std::cos(rad));
+			T sinAngle = static_cast<T>(std::sin(rad));
 			Vector3 u = axis.normalise(); // Normalised rotation axis
 
 			// Using Rodrigues' rotation formula
