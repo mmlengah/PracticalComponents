@@ -9,6 +9,12 @@
     <ClCompile Include="Vector3Tests.cpp">
       <Filter>PCMTests</Filter>
     </ClCompile>
+    <ClCompile Include="Vector4Tests.cpp">
+      <Filter>PCMTests</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix3x3Tests.cpp">
+      <Filter>PCMTests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

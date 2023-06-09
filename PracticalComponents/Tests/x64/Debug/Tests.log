@@ -1,2 +1,7 @@
-﻿  Vector3Tests.cpp
+﻿  pch.cpp
+  Vector2Tests.cpp
+  test.cpp
+  Vector3Tests.cpp
+  Vector4Tests.cpp
+  Generating Code...
   Tests.vcxproj -> D:\GitHub\PracticalComponents\PracticalComponents\x64\Debug\Tests.exe

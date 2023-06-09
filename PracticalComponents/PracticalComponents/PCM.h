@@ -404,7 +404,7 @@ namespace PC {
 		}
 
 		T magnitude() const {
-			return std::sqrt(x * x + y * y + z * z + w * w);
+			return static_cast<T>(std::sqrt(x * x + y * y + z * z + w * w));
 		}
 
 		Vector4 normalise() const {
