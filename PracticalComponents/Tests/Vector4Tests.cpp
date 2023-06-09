@@ -155,34 +155,34 @@ TEST(Vector4, DivisionByZero) {
 	ASSERT_DEATH(v1 /= scalar, ".*"); // We're using the ASSERT_DEATH function to check if the program terminates as expected
 }
 
-TEST(Vector4Test, EqualityOperator) {
+TEST(Vector4, EqualityOperator) {
 	Vector4int v1(1, 2, 3, 4);
 	Vector4int v2(1, 2, 3, 4);
 
 	EXPECT_TRUE(v1 == v2);
 }
 
-TEST(Vector4Test, InequalityOperator) {
+TEST(Vector4, InequalityOperator) {
 	Vector4int v1(1, 2, 3, 4);
 	Vector4int v2(5, 6, 7, 8);
 
 	EXPECT_TRUE(v1 != v2);
 }
 
-TEST(Vector4Test, DotProduct) {
+TEST(Vector4, DotProduct) {
 	Vector4int v1(1, 2, 3, 4);
 	Vector4int v2(5, 6, 7, 8);
 
 	EXPECT_EQ(v1.dotProduct(v2), 70); // 1*5 + 2*6 + 3*7 + 4*8 = 70
 }
 
-TEST(Vector4Test, Magnitude) {
+TEST(Vector4, Magnitude) {
 	Vector4int v1(1, 2, 3, 4);
 
 	EXPECT_EQ(v1.magnitude(), static_cast<int>(std::sqrt(30))); // sqrt(1^2 + 2^2 + 3^2 + 4^2) = sqrt(30)
 }
 
-TEST(Vector4Test, Normalise) {
+TEST(Vector4, Normalise) {
 	Vector4int v1(1, 2, 3, 4);
 	Vector4int result = v1.normalise();
 	int mag = v1.magnitude();

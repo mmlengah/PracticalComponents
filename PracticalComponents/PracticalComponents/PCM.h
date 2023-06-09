@@ -5,6 +5,7 @@
 #include <ostream>
 #include <cassert>
 #include <emmintrin.h>
+#include <initializer_list>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -452,6 +453,18 @@ namespace PC {
 			}
 		}
 
+		Matrix3x3(std::initializer_list<std::initializer_list<T>> list) {
+			int i = 0;
+			for (auto& row : list) {
+				int j = 0;
+				for (auto& val : row) {
+					matrix[i][j] = val;
+					++j;
+				}
+				++i;
+			}
+		}
+
 		Matrix3x3() {
 			for (int i = 0; i < rows; i++) {
 				for (int j = 0; j < columns; j++) {
@@ -483,13 +496,19 @@ namespace PC {
 			return result;
 		}
 
-		Matrix3x3 operator=(const Matrix3x3& m) {
-			for (int i = 0; i < rows; i++) {
-				for (int j = 0; j < columns; j++) {
-					matrix[i][j] = m.matrix[i][j];
+		bool operator==(const Matrix3x3& other) const {
+			for (int i = 0; i < rows; ++i) {
+				for (int j = 0; j < columns; ++j) {
+					if (matrix[i][j] != other.matrix[i][j]) {
+						return false;
+					}
 				}
 			}
-			return *this;
+			return true;
+		}
+
+		bool operator!=(const Matrix3x3& other) const {
+			return !(*this == other);
 		}
 
 		Matrix3x3 transpose() {
@@ -524,8 +543,8 @@ namespace PC {
 		// Create a 3x3 transformation matrix for rotation
 		static Matrix3x3 Matrix3x3FromRotation(const T& rotationAngle) {
 			Matrix3x3 temp;
-			float cosTheta = cos(rotationAngle * M_PI / 180.0f);
-			float sinTheta = sin(rotationAngle * M_PI / 180.0f);
+			float cosTheta = static_cast<float>(cos(rotationAngle * M_PI / 180.0f));
+			float sinTheta = static_cast<float>(sin(rotationAngle * M_PI / 180.0f));
 
 			temp.SetValue(0, 0, cosTheta);
 			temp.SetValue(0, 1, -sinTheta);
@@ -589,6 +608,19 @@ namespace PC {
 				}
 			}
 		}
+
+		Matrix4x4(std::initializer_list<std::initializer_list<T>> list) {
+			int i = 0;
+			for (const auto& row : list) {
+				int j = 0;
+				for (const auto& val : row) {
+					matrix[i][j] = val;
+					++j;
+				}
+				++i;
+			}
+		}
+
 		Matrix4x4() {
 			for (int i = 0; i < rows; i++) {
 				for (int j = 0; j < columns; j++) {
@@ -596,9 +628,6 @@ namespace PC {
 				}
 			}
 		}
-		void SetValue(int row, int column, T value) { matrix[row][column] = value; }
-
-		T GetValue(int row, int column) const { return matrix[row][column]; }
 
 		Matrix4x4 operator*(const Matrix4x4& m) const {
 			Matrix4x4 temp;
@@ -620,13 +649,27 @@ namespace PC {
 			return temp;
 		}
 
-		Matrix4x4 operator=(const Matrix4x4& m) {
-			for (int i = 0; i < rows; i++) {
-				for (int j = 0; j < columns; j++) {
-					matrix[i][j] = m.matrix[i][j];
+		bool operator==(const Matrix4x4& other) const {
+			for (int i = 0; i < rows; ++i) {
+				for (int j = 0; j < columns; ++j) {
+					if (matrix[i][j] != other.matrix[i][j]) {
+						return false;
+					}
 				}
 			}
-			return *this;
+			return true;
+		}
+
+		bool operator!=(const Matrix4x4& other) const {
+			return !(*this == other);
+		}
+
+		void SetValue(int row, int column, T value) { 
+			matrix[row][column] = value; 
+		}
+
+		T GetValue(int row, int column) const { 
+			return matrix[row][column]; 
 		}
 
 		Matrix4x4 transpose() {

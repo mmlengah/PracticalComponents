@@ -1,1 +1,3 @@
-﻿  PracticalComponents.vcxproj -> D:\GitHub\PracticalComponents\PracticalComponents\x64\Debug\PracticalComponents.dll
+﻿  pch.cpp
+  dllmain.cpp
+  PracticalComponents.vcxproj -> D:\GitHub\PracticalComponents\PracticalComponents\x64\Debug\PracticalComponents.dll

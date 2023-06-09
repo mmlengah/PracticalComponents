@@ -1,4 +1,5 @@
 ﻿  pch.cpp
+  Matrix3x3Tests.cpp
   Vector2Tests.cpp
   test.cpp
   Vector3Tests.cpp
