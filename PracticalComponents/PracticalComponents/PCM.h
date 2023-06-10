@@ -440,8 +440,8 @@ namespace PC {
 		}
 
 	public:
-		int const rows = 3;
-		int const columns = 3;
+		static const int rows = 3;
+		static const int columns = 3;
 		T matrix[3][3];
 
 		Matrix3x3(T matrix[3][3]) {
@@ -472,12 +472,12 @@ namespace PC {
 			}
 		}
 
-		void SetValue(int row, int column, T value) { 
+		void SetValue(int row, int column, T value) {
 			matrix[row][column] = value;
 		}
 
-		T GetValue(int row, int column) const { 
-			return matrix[row][column]; 
+		T GetValue(int row, int column) const {
+			return matrix[row][column];
 		}
 
 		Matrix3x3 operator*(const Matrix3x3& m) const {
@@ -495,7 +495,6 @@ namespace PC {
 			}
 			return result;
 		}
-
 
 		bool operator==(const Matrix3x3& other) const {
 			for (int i = 0; i < rows; ++i) {
@@ -664,12 +663,12 @@ namespace PC {
 			return !(*this == other);
 		}
 
-		void SetValue(int row, int column, T value) { 
-			matrix[row][column] = value; 
+		void SetValue(int row, int column, T value) {
+			matrix[row][column] = value;
 		}
 
-		T GetValue(int row, int column) const { 
-			return matrix[row][column]; 
+		T GetValue(int row, int column) const {
+			return matrix[row][column];
 		}
 
 		Matrix4x4 transpose() {
