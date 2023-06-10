@@ -4,7 +4,6 @@
 #include <stdexcept>
 #include <ostream>
 #include <cassert>
-#include <emmintrin.h>
 #include <initializer_list>
 
 #ifndef M_PI
@@ -481,20 +480,22 @@ namespace PC {
 			return matrix[row][column]; 
 		}
 
-		Matrix3x3 operator*(const Matrix3x3& other) const {
+		Matrix3x3 operator*(const Matrix3x3& m) const {
 			Matrix3x3 result;
 
-			for (int i = 0; i < 3; ++i) {
-				for (int j = 0; j < 3; ++j) {
-					result.matrix[i][j] = 0;
-					for (int k = 0; k < 3; ++k) {
-						result.matrix[i][j] += matrix[i][k] * other.matrix[k][j];
-					}
+			for (int i = 0; i < 3; i++) {
+				const T* aPtr = &this->matrix[i][0];
+				for (int j = 0; j < 3; j++) {
+					T sum = aPtr[0] * m.matrix[0][j]
+						+ aPtr[1] * m.matrix[1][j]
+						+ aPtr[2] * m.matrix[2][j];
+
+					result.matrix[i][j] = sum;
 				}
 			}
-
 			return result;
 		}
+
 
 		bool operator==(const Matrix3x3& other) const {
 			for (int i = 0; i < rows; ++i) {
@@ -597,8 +598,8 @@ namespace PC {
 			return sign * minor;
 		}
 	public:
-		int const rows = 4;
-		int const columns = 4;
+		static const int rows = 4;
+		static const int columns = 4;
 		T matrix[4][4];
 
 		Matrix4x4(T matrix[4][4]) {
@@ -629,25 +630,24 @@ namespace PC {
 			}
 		}
 
+		// Default multiplication
 		Matrix4x4 operator*(const Matrix4x4& m) const {
-			Matrix4x4 temp;
+			Matrix4x4<T> result;
+
 			for (int i = 0; i < rows; i++) {
-				__m128 row = _mm_load_ps(matrix[i]);
+				const T* aPtr = &this->matrix[i][0];
 				for (int j = 0; j < columns; j++) {
-					__m128 col = _mm_set_ps(m.matrix[0][j], m.matrix[1][j], m.matrix[2][j], m.matrix[3][j]);
-					__m128 res = _mm_mul_ps(row, col);
+					T sum = aPtr[0] * m.matrix[0][j]
+						+ aPtr[1] * m.matrix[1][j]
+						+ aPtr[2] * m.matrix[2][j]
+						+ aPtr[3] * m.matrix[3][j];
 
-					// Manually sum the four float values of res into a single float
-					float result[4];
-					_mm_store_ps(result, res);
-					float sum = result[0] + result[1] + result[2] + result[3];
-
-					// Store the result back into temp
-					temp.matrix[i][j] = sum;
+					result.matrix[i][j] = sum;
 				}
 			}
-			return temp;
+			return result;
 		}
+
 
 		bool operator==(const Matrix4x4& other) const {
 			for (int i = 0; i < rows; ++i) {

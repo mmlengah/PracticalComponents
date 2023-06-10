@@ -1,8 +1,2 @@
-﻿  pch.cpp
-  Matrix3x3Tests.cpp
-  Vector2Tests.cpp
-  test.cpp
-  Vector3Tests.cpp
-  Vector4Tests.cpp
-  Generating Code...
+﻿  Matrix4x4Tests.cpp
   Tests.vcxproj -> D:\GitHub\PracticalComponents\PracticalComponents\x64\Debug\Tests.exe
