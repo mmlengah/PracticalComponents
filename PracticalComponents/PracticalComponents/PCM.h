@@ -549,6 +549,10 @@ namespace PC {
 			return a * e * i + b * f * g + c * d * h - c * e * g - b * d * i - a * f * h;
 		}
 
+		Vector2<T> getCol(int col) const {
+			return Vector2<T>(matrix[0][col], matrix[1][col]);
+		}
+
 		Vector2<T> getTranslation() {
 			return Vector2<T>(GetValue(0, 2), GetValue(1, 2));
 		}
@@ -764,6 +768,10 @@ namespace PC {
 				}
 				return result;
 			}
+		}
+
+		Vector3<T> getCol(int col) const {
+			return Vector3<T>(matrix[0][col], matrix[1][col], matrix[2][col]);
 		}
 
 		// Assumes matrix is composed in order: Scale, then Rotate, then Translate
